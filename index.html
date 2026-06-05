@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+
+    <script>
+        // The browser checks the screen width automatically
+        if (window.innerWidth < 768) {
+            // If it's a mobile phone screen, seamlessly open the mobile folder
+            window.location.href = "./mobile/index.html";
+        } else {
+            // If it's a desktop or laptop screen, seamlessly open the desktop folder
+            window.location.href = "./desktop/index.html";
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting you to the optimized version of our site...</p>
+</body>
+</html>
