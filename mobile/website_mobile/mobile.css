@@ -1,0 +1,167 @@
+/* ============================================================
+   Shree Shyam Stonex — Mobile Stylesheet
+   Loaded after main styles. Mobile-only via @media (max-width:900px).
+   Goals: smooth, fast, no horizontal scroll, app-like nav + sticky CTA.
+   ============================================================ */
+
+/* Universal safety: prevent horizontal scroll & enable smooth scroll */
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{overflow-x:hidden}
+img,video,canvas,svg{max-width:100%;height:auto}
+
+/* Hamburger button — hidden on desktop, shown on mobile */
+.m-burger{display:none;position:relative;width:44px;height:44px;border:none;
+  background:transparent;cursor:pointer;z-index:1002;padding:0}
+.m-burger span{position:absolute;left:10px;right:10px;height:2px;
+  background:var(--ink,#1a1a1a);border-radius:2px;transition:transform .25s ease,opacity .2s ease,top .25s ease}
+.m-burger span:nth-child(1){top:15px}
+.m-burger span:nth-child(2){top:21px}
+.m-burger span:nth-child(3){top:27px}
+.m-burger.is-open span:nth-child(1){top:21px;transform:rotate(45deg)}
+.m-burger.is-open span:nth-child(2){opacity:0}
+.m-burger.is-open span:nth-child(3){top:21px;transform:rotate(-45deg)}
+
+/* Slide-in drawer */
+.m-drawer-backdrop{position:fixed;inset:0;background:rgba(15,12,8,.55);
+  opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;z-index:1000}
+.m-drawer-backdrop.is-open{opacity:1;visibility:visible}
+.m-drawer{position:fixed;top:0;right:0;bottom:0;width:84%;max-width:340px;
+  background:var(--off-white,#FDFBF8);z-index:1001;
+  transform:translate3d(100%,0,0);transition:transform .3s cubic-bezier(.22,.61,.36,1);
+  display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.18);
+  padding:80px 28px 32px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.m-drawer.is-open{transform:translate3d(0,0,0)}
+.m-drawer a{display:block;padding:16px 4px;font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:500;color:var(--ink,#1a1a1a);text-decoration:none;
+  border-bottom:1px solid rgba(0,0,0,.06);transition:color .2s}
+.m-drawer a:active{color:var(--petra,#4A3ADB)}
+.m-drawer a.is-active{color:var(--petra,#4A3ADB)}
+.m-drawer .m-drawer-petra{margin-top:18px;padding:14px 20px;border-radius:10px;
+  background:linear-gradient(135deg,var(--petra,#4A3ADB),var(--petra-lt,#7B6BFF));
+  color:#fff;text-align:center;font-family:inherit;font-size:14px;font-weight:600;
+  letter-spacing:.04em;border-bottom:none}
+.m-drawer .m-drawer-cta{margin-top:auto;padding-top:24px;border-top:1px solid rgba(0,0,0,.08);
+  font-size:11px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ink-soft,#666);border-bottom:none}
+body.m-drawer-open{overflow:hidden;touch-action:none}
+
+/* Sticky bottom contact bar */
+.m-sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:999;
+  background:#0f0c08;color:#fff;
+  padding:10px max(12px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-right));
+  box-shadow:0 -6px 20px rgba(0,0,0,.18);
+  grid-template-columns:1fr 1fr;gap:10px}
+.m-sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 8px;border-radius:10px;text-decoration:none;color:#fff;
+  font-size:13px;font-weight:600;letter-spacing:.04em;line-height:1;
+  transition:transform .15s ease}
+.m-sticky-cta a:active{transform:scale(.97)}
+.m-sticky-cta .m-cta-call{background:linear-gradient(135deg,#b8965a,#d4b074)}
+.m-sticky-cta .m-cta-wa{background:#25D366}
+.m-sticky-cta svg{width:18px;height:18px;flex-shrink:0}
+
+/* ============================================================
+   MOBILE BREAKPOINT
+   ============================================================ */
+@media (max-width: 900px){
+
+  /* Nav */
+  #nav{padding:14px 18px !important;
+    background:rgba(253,251,248,.92);backdrop-filter:saturate(180%) blur(14px);
+    -webkit-backdrop-filter:saturate(180%) blur(14px);position:sticky;top:0;z-index:998}
+  .nav-links{display:none !important}
+  .m-burger{display:block}
+  .nav-brand-text{font-size:16px !important}
+
+  /* Show sticky CTA + reserve space so content isn't covered */
+  .m-sticky-cta{display:grid}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom)) !important}
+
+  /* Float button raised above sticky bar */
+  #float-btn{bottom:calc(86px + env(safe-area-inset-bottom)) !important}
+  #float-petra{bottom:calc(86px + env(safe-area-inset-bottom)) !important;
+    right:14px !important;left:14px !important;width:auto !important;max-width:none !important}
+
+  /* Hero — gentle, no parallax */
+  #hero{min-height:auto !important;padding:64px 20px 56px !important}
+  #hero-canvas{opacity:.35 !important}
+  .hero-inner{padding:0 !important}
+  .display{font-size:clamp(40px,11vw,60px) !important;line-height:1.02 !important}
+  .hero-sub{font-size:15px !important;line-height:1.6 !important;margin:18px 0 24px !important}
+  .eyebrow{font-size:10px !important;margin-bottom:16px !important;flex-wrap:wrap}
+  .cta-row{flex-direction:column !important;align-items:stretch !important;gap:10px !important}
+  .cta-row a{text-align:center;justify-content:center;padding:14px 18px !important;font-size:14px !important}
+  .hero-stats{position:static !important;display:grid !important;
+    grid-template-columns:repeat(3,1fr) !important;gap:14px !important;
+    margin-top:36px !important;padding:22px 0 0 !important;
+    border-top:1px solid rgba(0,0,0,.08)}
+  .hero-stat{text-align:center}
+  .hero-stat .stat-num{font-size:28px !important}
+  .hero-stat .stat-label{font-size:10px !important}
+  .hero-scroll{display:none !important}
+
+  /* Sections — uniform breathing room */
+  section{padding:56px 20px !important}
+  .section-label{font-size:10px !important;margin-bottom:14px !important}
+  h2.display{font-size:clamp(28px,7vw,40px) !important;line-height:1.08 !important}
+
+  /* Grids -> single column */
+  .proc-steps{grid-template-columns:1fr !important}
+  .placards-grid{grid-template-columns:1fr !important;gap:16px !important}
+  .services-grid{grid-template-columns:1fr !important;gap:0 !important}
+  .svc-card{padding:28px 22px !important;border-bottom:1px solid rgba(0,0,0,.06)}
+  .petra-layout{grid-template-columns:1fr !important;gap:36px !important}
+
+  /* Globe / exports */
+  .globe-stats{flex-wrap:wrap !important;gap:24px !important;
+    padding:32px 20px 48px !important;justify-content:space-around !important}
+  .globe-stats > *{flex:1 1 40%;text-align:center}
+
+  /* Petra chat preview */
+  .chat-shell, .chat-window{max-height:60vh !important}
+  .messages{max-height:300px !important}
+
+  /* Process bar — wrap chips */
+  .proc-bar{flex-wrap:wrap !important;gap:6px !important;padding:10px 12px !important;font-size:11px !important}
+
+  /* Contact page */
+  #contact .contact-grid, .contact-grid{grid-template-columns:1fr !important;gap:32px !important}
+  .c-detail{padding:14px 0 !important}
+  .f-form input, .f-form textarea, .f-form select{font-size:16px !important;padding:14px !important} /* 16px stops iOS zoom */
+  .f-submit{width:100% !important;padding:16px !important;font-size:14px !important}
+
+  /* Footer */
+  footer{padding:48px 20px 32px !important}
+  .footer-nav{flex-direction:column !important;gap:14px !important;align-items:flex-start !important}
+  .footer-grid, .foot-grid{grid-template-columns:1fr !important;gap:28px !important}
+
+  /* FAQ */
+  .faq-q{padding:18px 16px !important;font-size:14px !important}
+  .faq-a{padding:0 16px 18px !important;font-size:13.5px !important;line-height:1.65 !important}
+
+  /* Blog cards */
+  .blog-grid, .posts-grid{grid-template-columns:1fr !important;gap:20px !important}
+
+  /* Tap targets */
+  a, button{min-height:auto}
+  .btn-dark, .btn-ghost{min-height:46px;display:inline-flex;align-items:center;justify-content:center}
+
+  /* Kill noisy animations for smoothness */
+  *,*::before,*::after{
+    animation-duration:.4s !important;
+    animation-iteration-count:1 !important;
+  }
+}
+
+/* Tiny phones */
+@media (max-width: 380px){
+  .display{font-size:38px !important}
+  .m-drawer{width:92%}
+  .m-sticky-cta a{font-size:12px;padding:12px 6px}
+}
+
+/* User-respected reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  #hero-canvas{display:none !important}
+}
