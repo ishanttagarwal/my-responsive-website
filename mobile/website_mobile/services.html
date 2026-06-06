@@ -1,5 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+@media (max-width: 900px){
+  .m-burger{position:fixed;top:14px;right:14px;z-index:1001;width:44px;height:44px;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;
+    background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.08);
+    border-radius:12px;cursor:pointer;padding:0;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+  .m-burger span{display:block;width:22px;height:2px;background:#111;border-radius:2px;transition:transform .25s,opacity .2s}
+  .m-burger.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .m-burger.is-open span:nth-child(2){opacity:0}
+  .m-burger.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  .m-drawer-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;
+    transition:opacity .25s;z-index:1000}
+  .m-drawer-backdrop.is-open{opacity:1;pointer-events:auto}
+
+  .m-drawer{position:fixed;top:0;right:0;height:100dvh;width:78%;max-width:320px;
+    background:#fff;z-index:1002;padding:80px 24px 32px;
+    transform:translateX(100%);transition:transform .28s ease-out;
+    box-shadow:-10px 0 30px rgba(0,0,0,.15);display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+  .m-drawer.is-open{transform:translateX(0)}
+  .m-drawer a{display:block;padding:14px 12px;font-size:17px;color:#111;text-decoration:none;
+    border-radius:8px;font-weight:500}
+  .m-drawer a:active{background:#f3f3f3}
+  .m-drawer a.is-active{background:#111;color:#fff}
+
+  body.m-drawer-open{overflow:hidden}
+}
+@media (min-width:901px){.m-burger,.m-drawer,.m-drawer-backdrop{display:none!important}}
+</style>
+
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -1205,5 +1235,49 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 </script>
 
 <script src="mobile.js" defer></script>
+<script>
+(function(){
+  if (window.__hb) return; window.__hb = true;
+  var LINKS = [
+    ['index.html','Home'],
+    ['services.html','Services'],
+    ['blog.html','Blog'],
+    ['faq.html','FAQ'],
+    ['contact.html','Contact']
+  ];
+
+  function init(){
+    var burger = document.createElement('button');
+    burger.className = 'm-burger';
+    burger.setAttribute('aria-label','Menu');
+    burger.innerHTML = '<span></span><span></span><span></span>';
+
+    var bd = document.createElement('div');
+    bd.className = 'm-drawer-backdrop';
+
+    var dr = document.createElement('aside');
+    dr.className = 'm-drawer';
+    var path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    dr.innerHTML = LINKS.map(function(l){
+      var active = l[0].toLowerCase() === path ? ' class="is-active"' : '';
+      return '<a href="'+l[0]+'"'+active+'>'+l[1]+'</a>';
+    }).join('');
+
+    document.body.appendChild(burger);
+    document.body.appendChild(bd);
+    document.body.appendChild(dr);
+
+    function open(){dr.classList.add('is-open');bd.classList.add('is-open');burger.classList.add('is-open');document.body.classList.add('m-drawer-open');}
+    function close(){dr.classList.remove('is-open');bd.classList.remove('is-open');burger.classList.remove('is-open');document.body.classList.remove('m-drawer-open');}
+    burger.addEventListener('click',function(){dr.classList.contains('is-open')?close():open();});
+    bd.addEventListener('click', close);
+    document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  }
+
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+
 </body>
 </html>
